@@ -5,7 +5,8 @@ from bson.json_util import dumps
 from flask import Flask, jsonify
 from flask import Flask, request, render_template
 import markdown.extensions.fenced_code
-from Tools.sql_tools import *
+#from Tools.sql_tools import *
+from Tools.mongo_tools import *
 
 app = Flask(__name__)
 
@@ -17,9 +18,9 @@ def index():
 
 
 @app.route("/all")
-def all_from_sql():
+def all_from_mongo():
     try:
-        lines = get_all_from_sql()
+        lines = get_all_from_mongo()
         return jsonify(lines)
     except Exception as e:
         return dumps({'error': str(e)})
@@ -55,7 +56,7 @@ def gfg():
         link = request.form.get("fname")
         downloading_sentence(link)
         data_sentencia = regex_court_sentence_file()
-        uploading_sql(data_sentencia)
+        uploading_mongo(data_sentencia)
         return jsonify(data_sentencia)
     return render_template("login.html")
 
